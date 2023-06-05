@@ -1,0 +1,53 @@
+Solution
+jenkins is already installed or you can install yours.
+Access the Jenkins environment by copying the public IP address provided with the lab credentials. Then, in a browser window, navigate to that IP address using:
+
+http://<public IP address>:8080
+When prompted, log in to Jenkins with the username <Your Username> and the password <Your Password>
+
+Create a Folder Named Test
+Once logged in to Jenkins, click New Item in the left pane.
+In the Enter an item name field, type "Test".
+From the list of available item types, select Folder.
+Click OK.
+Click Save to accept the default configurations for the folder.
+Create and Run a User Test Job That Saves Its Output in a File Named user_test.txt
+In the Test folder you just created, click the create new jobs link.
+
+Note: You could also click New Item in the left pane.
+
+In the Enter an item name field, type "user_test".
+
+From the list of available item types, make sure that Freestyle project is selected.
+
+Click OK.
+
+In the configuration for the project, scroll down to the Build section and click the Add build step drop-down arrow.
+
+From the drop-down menu, select Execute shell.
+
+In the Command text box, add the code containing the uname and whoami commands required to output the desired information to the requested file name:
+
+uname -a && whoami > user_test.txt
+Click Save.
+
+In the user_test project, click Build Now in the left pane.
+
+Verify that the build completes in the Build History pane.
+
+Once completed, click Workspace in the project pane.
+
+Click the view link to the right of the user_test.txt file.
+
+Verify that the output in the file displays jenkins.
+
+Click the back button in the browser window.
+
+Click on the drop-down arrow next to the build in the Build History pane and click Console Output.
+
+In the Console Output, view the output in the file and verify the following:
+
+The username of the user who ran the build (which should be student, the username with which you are signed in).
+The version of Linux that the build was running on.
+Conclusion
+Congratulations
