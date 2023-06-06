@@ -1,0 +1,97 @@
+Solution
+In a new browser tab, log in to the Jenkins instance using the Jenkins server public credentials provided:
+
+<PUBLIC_IP_ADDRESS>:8080
+
+Using the same credentials, open a terminal window and log in to the Jenkins server using SSH to retrieve the temporary admin password:
+
+ssh cloud_user@<PUBLIC_IP_ADDRESS>
+
+Retrieve the temporary admin password:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the temporary admin password and paste it into the Administrator password field in the new browser tab.
+
+Click Continue.
+
+Deploy the App to the Staging Server Via the Jenkins Pipeline
+Getting started
+On the Create First Admin User form, provide the following information:
+Username: jenkins
+Password: random
+Confirm password: random
+Full name: jenkins
+Email address: noreply@linuxacademy.com
+Click Save and Continue > Start using Jenkins.
+Configure staging and production Servers for the Publish Over SSH Plugin
+On the lab page, copy the staging server public IP address.
+In the Jenkins tab in your browser, click Manage Jenkins and then click Configure System.
+Scroll to the bottom of this page to find the Publish over SSH section.
+In SSH Servers, click Add.
+Add the following SSH Server values, replacing <STAGING_SERVER_PUBLIC_IP_ADDRESS> with the IP address copied earlier:
+Name: staging
+Hostname: <STAGING_SERVER_PUBLIC_IP_ADDRESS>
+Remote Directory: /
+Click Add.
+Return to the lab page and copy the production server public IP address.
+Add the following SSH Server values, replacing <PRODUCTION_SERVER_PUBLIC_IP_ADDRESS> with the IP address copied earlier:
+Name: production
+Hostname: <PRODUCTION_SERVER_PUBLIC_IP_ADDRESS>
+Remote Directory: /
+Click Save.
+Set Up Jenkins Credentials
+From the left menu, click Credentials.
+In Stores scoped to Jenkins, click global.
+On the left, click Add Credentials.
+Add the following values:
+Username: deploy
+Password: jenkins
+ID: webserver_login
+Description: Webserver Login
+Click OK to save our changes.
+Set up the Jenkins Project
+On the top menu, click Jenkins to return to the main page.
+From the left menu, click New Item.
+Enter the item name "train-schedule".
+Select Multibranch Pipeline and click OK.
+Navigate to the train-schedule Git repo and click Fork to fork the repo to your account.
+From the GitHub top menu, click the avatar icon and click Settings > Developer settings > personal access tokens > Generate new token.
+In Token description, enter "Jenkins".
+Select admin:repo_hook. and click Generate token.
+Copy the generated API token to the clipboard.
+Return to the Jenkins page and select the Branch sources tab.
+In Branch Sources, click Add source and select GitHub.
+In Credentials, click Add and select Jenkins.
+Set the following values:
+* *Username*: Your GitHub username
+* *Password*: Generated API token copied earlier
+* *ID*: **github_key**
+* *Description*: **GitHub Key**
+Click Add.
+In Credentials, select the newly created GitHub Key credential.
+In Owner, enter your GitGub username.
+In Repository, select cicd-pipeline-train-schedule-cd.
+Click Save.
+From the top menu, click train-schedule and then click master to view the initial build in the master branch.
+Create a Stage in the Jenkinsfile and Run the Build
+From the GitHub personal fork, open the Jenkinsfile and click the pencil icon to edit the file's contents.
+Delete the file contents.
+In a new browser tab, access the solution Jenkinsfile on the Github example-solution branch and copy the DeployToStaging stage text.
+Paste the text into the Jenkinsfile in our GitHub fork.
+Click Commit changes.
+Return to the Jenkins Branch master page.
+On the left menu, click Build Now.
+To test our deployment, copy the staging server public IP address again from the lab page.
+Open a new browser tab and paste the IP address, specifying the port 3000. Our train schedule application should load successfully.
+Deploy the App to the Production Server Via the Jenkins Pipeline
+From the GitHub personal fork, open the Jenkinsfile and click the pencil icon to edit the file's contents.
+In a new browser tab, access the solution Jenkinsfile on the Github example-solution branch and copy the DeployToProduction stage text.
+Paste the text into the Jenkinsfile in our GitHub fork.
+Click Commit changes.
+Return to the Jenkins Branch master page.
+On the left menu, click Build Now.
+Hover over DeployToProduction and click Proceed.
+To test our deployment, copy the production server public IP address again from the lab page.
+Open a new browser tab and paste the IP address, specifying the port 3000. Our train schedule application should load successfully.
+Conclusion
